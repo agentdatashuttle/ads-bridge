@@ -99,8 +99,6 @@ The ADS Bridge is intended to be run by ADS Publishers to send ADS events, which
    npm install
    ```
 
-````
-
 2. **Build the project:**
 
    ```sh
@@ -292,4 +290,3 @@ This project is licensed under the [Apache License 2.0](https://www.apache.org/l
 
 For questions or support, please contact
 <br>[agentdatashuttle@knowyours.co](mailto:agentdatashuttle@knowyours.co) or [sudhay2001@gmail.com](mailto:sudhay2001@gmail.com)
-````
