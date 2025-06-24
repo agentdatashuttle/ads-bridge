@@ -1,0 +1,63 @@
+version: "3.9"
+services:
+  # Traefik Proxy
+  traefik:
+    image: traefik:2.4
+    ports:
+      - 9999:9999
+      - 8888:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./dockervolumes/traefik/traefik.yml:/etc/traefik/traefik.yml
+
+  # Redis Stack
+  redis_stack:
+    image: redis/redis-stack:latest
+    ports:
+      - 8001:8001
+      - 6379:6379
+
+  # RabbitMQ
+  rabbitmq:
+    image: rabbitmq:4.1-management
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=ads_user
+      - RABBITMQ_DEFAULT_PASS=ads_password
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "15692:15692"
+
+  # ADS Bridge
+  ads_bridge:
+    build:
+      context: ..
+    restart: always
+    environment:
+      - APP_ENV=development
+      - APP_PLATFORM=dockercompose
+      - SERVER_PORT=3000
+      - REDIS_HOST=redis_stack
+      - REDIS_PORT=6379
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=ads_user
+      - RABBITMQ_PASSWORD=ads_password
+      - ADS_PUBLISH_SOCKET_EVENT_NAME=ads_event_published_now
+      - LOG_LEVEL=debug
+    ports:
+      - "3000"
+    depends_on:
+      - rabbitmq
+      - redis_stack
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ads_bridge.entrypoints=web"
+      - "traefik.http.routers.ads_bridge.rule=PathPrefix(`/ads_bridge`)"
+      - "traefik.http.routers.ads_bridge.middlewares=ads_bridge_middleware"
+      - "traefik.http.middlewares.ads_bridge_middleware.stripprefix.prefixes=/ads_bridge"
+      - "traefik.http.services.ads_bridge.loadBalancer.sticky.cookie.httpOnly=false"
+      - "traefik.http.services.ads_bridge.loadBalancer.sticky=true"
+      - "traefik.http.services.ads_bridge.loadBalancer.sticky.cookie.name=ads_bridge_sticky"

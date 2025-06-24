@@ -2,6 +2,8 @@
 
 # ADS Bridge
 
+#### Agent Data Shuttle (ADS) — _The framework that makes your AI agents autonomously react to external events._
+
 > **ADS Bridge** is a lightweight Node.js service that receives events from ADS Publishers and instantly broadcasts them to subscribed AI agents. It supports scalable, real-time event delivery with Redis and is ready for containerized deployments.
 
 Jump to [Quick Start](#quick-start) for setting up an ADS Publisher via your own ADS Bridge
@@ -33,9 +35,12 @@ The ADS Bridge is intended to be run by ADS Publishers to send ADS events, which
 
 ---
 
-## Quick Start
+## TODO Quick Start
 
-- TODO
+- Download the .zip present in the Releases section (which is the compressed version of the `/deploy` folder)
+- Perform `docker compose up` or `docker compose up --scale ads_bridge=<no_of_replicas>`
+- Traefik runs on port 9999 and the ADS Bridge replicas run behind the path `/ads_bridge`
+- Traefik config is present inside the zip file as dockervolumes/traefik/traefik.yml
 
 ---
 
@@ -132,15 +137,22 @@ You can override these in your environment or in the `docker-compose.yaml`.
 
 ### Express Endpoints
 
-- **GET `/health`**  
+- **GET `/health`**
+
+  > (Endpoint via Traefik proxy - `http://localhost:9999/ads_bridge/health`)
+
   Returns service health and hostname.
 
   ```json
   { "status": "healthy", "hostname": "your-hostname" }
   ```
 
-- **GET `/stats`**  
+- **GET `/stats`**
+
+  > (Endpoint via Traefik proxy - `http://localhost:9999/ads_bridge/stats`)
+
   Returns Socket.io connection stats and hostname.
+
   ```json
   {
     "totalSocketioConnections": 5,
@@ -196,6 +208,19 @@ src/
 
 - **TypeScript:**  
   All source code is in TypeScript. Build output is in `build/`.
+
+#### Docker Image Build
+
+- Follows a `<year>.<month>.<release>` versioning convention
+- Prepare the Multiplatform builder if issues arise
+
+  > `docker buildx create --name multiarch-builder --driver docker-container --use`
+  >
+  > `docker buildx inspect --bootstrap`
+
+- Command to build and push - `docker buildx build --platform linux/amd64,linux/arm64 -t agentdatashuttle/ads-bridge:25.6.1 -t agentdatashuttle/ads-bridge:latest . --push`
+
+---
 
 ---
 

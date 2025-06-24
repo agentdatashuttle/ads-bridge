@@ -1,7 +1,7 @@
 {
-  "name": "agent-data-shuttle-poc",
-  "version": "1.0.0",
-  "description": "> ### (POC)",
+  "name": "ads-bridge",
+  "version": "25.6.1",
+  "description": "The ADS Bridge is to be run by ADS Publishers to send ADS events which would be received by subscribed agents",
   "main": "index.js",
   "scripts": {
     "start": "node ./build/index.js",
