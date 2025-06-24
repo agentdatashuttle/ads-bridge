@@ -1,0 +1,1 @@
+- Run `docker compose up --scale ads_bridge=2` to start ADS Bridge
