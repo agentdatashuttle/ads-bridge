@@ -1,0 +1,33 @@
+{
+  "name": "agent-data-shuttle-poc",
+  "version": "1.0.0",
+  "description": "> ### (POC)",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./build/index.js",
+    "build": "tsc",
+    "dev": "nodemon src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@socket.io/redis-adapter": "^8.3.0",
+    "@types/amqplib": "^0.10.7",
+    "@types/redis": "^4.0.11",
+    "@types/winston": "^2.4.4",
+    "amqplib": "^0.10.8",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "redis": "^5.5.6",
+    "socket.io": "^4.8.1",
+    "typescript": "^5.8.3",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/socket.io": "^3.0.2",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2"
+  }
+}

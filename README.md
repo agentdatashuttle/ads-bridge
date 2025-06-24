@@ -2,7 +2,7 @@
 
 # ADS Bridge
 
-> _In short_: **ADS Bridge** is a Node.js service that receives events from ADS Publishers and instantly broadcasts them to subscribed AI agents. It supports scalable, real-time event delivery with Redis and is ready for containerized deployments.
+> **ADS Bridge** is a lightweight Node.js service that receives events from ADS Publishers and instantly broadcasts them to subscribed AI agents. It supports scalable, real-time event delivery with Redis and is ready for containerized deployments.
 
 Jump to [Quick Start](#quick-start) for setting up an ADS Publisher via your own ADS Bridge
 
