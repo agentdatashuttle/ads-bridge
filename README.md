@@ -35,12 +35,33 @@ The ADS Bridge is intended to be run by ADS Publishers to send ADS events, which
 
 ---
 
-## TODO Quick Start
+## Quick Start
 
-- Download the .zip present in the Releases section (which is the compressed version of the `/deploy` folder)
-- Perform `docker compose up` or `docker compose up --scale ads_bridge=<no_of_replicas>`
-- Traefik runs on port 9999 and the ADS Bridge replicas run behind the path `/ads_bridge`
-- Traefik config is present inside the zip file as dockervolumes/traefik/traefik.yml
+- **Download the release zip**  
+   Get the `.zip` file from [Releases](https://github.com/agentdatashuttle/ads-bridge/releases) — it contains the pre-configured `/deploy` folder.
+
+- **Start the service with Docker Compose**
+
+  ```sh
+  docker compose up
+  ```
+
+  Or to run multiple ADS Bridge replicas:
+
+  ```sh
+  docker compose up --scale ads_bridge=<no_of_replicas>
+  ```
+
+- **Access the service**
+
+  - Traefik runs at: `http://localhost:9999`
+  - ADS Bridge is served behind the `/ads_bridge` path
+
+  Example:
+
+  ```
+  http://localhost:9999/ads_bridge/health
+  ```
 
 ---
 
@@ -77,6 +98,8 @@ The ADS Bridge is intended to be run by ADS Publishers to send ADS events, which
    # or
    npm install
    ```
+
+````
 
 2. **Build the project:**
 
@@ -163,9 +186,9 @@ You can override these in your environment or in the `docker-compose.yaml`.
 
 ### Socket.io
 
-- **Event:**  
+- **Event:**
   The event name is configurable via `ADS_PUBLISH_SOCKET_EVENT_NAME` environment variable (default: `ads_event_published`).
-- **Payload:**  
+- **Payload:**
   The payload is a JSON object as defined in [`ADSDataPayload`](src/types/types.ts).
 
 ---
@@ -206,7 +229,7 @@ src/
 
   Uses `nodemon` for hot-reloading.
 
-- **TypeScript:**  
+- **TypeScript:**
   All source code is in TypeScript. Build output is in `build/`.
 
 #### Docker Image Build
@@ -269,3 +292,4 @@ This project is licensed under the [Apache License 2.0](https://www.apache.org/l
 
 For questions or support, please contact
 <br>[agentdatashuttle@knowyours.co](mailto:agentdatashuttle@knowyours.co) or [sudhay2001@gmail.com](mailto:sudhay2001@gmail.com)
+````
