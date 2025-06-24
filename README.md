@@ -119,7 +119,7 @@ The ADS Bridge is intended to be run by ADS Publishers to send ADS events, which
 
 ### Docker Compose
 
-A ready-to-use [docker-compose.dev.yaml](docker-compose.dev.yaml) is provided for local development, which brings up:
+A ready-to-use [docker-compose.dev.yaml](deploy/docker-compose.dev.yaml) is provided for local development, which brings up:
 
 - ADS Bridge
 - RabbitMQ
