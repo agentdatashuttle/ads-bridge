@@ -220,7 +220,9 @@ src/
 
 - Command to build and push - `docker buildx build --platform linux/amd64,linux/arm64 -t agentdatashuttle/ads-bridge:25.6.1 -t agentdatashuttle/ads-bridge:latest . --push`
 
----
+#### Preparing release .zip file
+
+- Execute `yarn zip-release` and issue a release
 
 ---
 

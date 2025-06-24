@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node ./build/index.js",
     "build": "tsc",
-    "dev": "nodemon src/index.ts"
+    "dev": "nodemon src/index.ts",
+    "zip-release": "rm -f ads-bridge-*.zip; zip -r ads-bridge-release-$(node -p \"require('./package.json').version\").zip deploy"
   },
   "keywords": [],
   "author": "",
