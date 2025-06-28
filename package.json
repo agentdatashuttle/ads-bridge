@@ -10,8 +10,8 @@
     "zip-release": "rm -f ads-bridge-*.zip; zip -r ads-bridge-release-$(node -p \"require('./package.json').version\").zip deploy"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Knowyours",
+  "license": "Apache-2.0",
   "dependencies": {
     "@socket.io/redis-adapter": "^8.3.0",
     "@types/amqplib": "^0.10.7",
