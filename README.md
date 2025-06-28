@@ -1,5 +1,3 @@
-<!-- TODO -->
-
 # ADS Bridge
 
 #### Agent Data Shuttle (ADS) — _The framework that makes your AI agents autonomously react to external events._
