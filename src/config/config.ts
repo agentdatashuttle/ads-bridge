@@ -10,6 +10,7 @@ class Config {
   rabbitmq_password: string;
   ads_publish_socket_event_name: string;
   log_level: string;
+  ads_subscribers_pool_id_prefix: string = "ADS_SUBSCRIBER_POOL_";
 
   constructor(
     server_port: string,

@@ -29,7 +29,7 @@ services:
 
   # ADS Bridge
   ads_bridge:
-    image: agentdatashuttle/ads-bridge:25.6.1
+    image: agentdatashuttle/ads-bridge:25.7.1
     restart: unless-stopped
     environment:
       - SERVER_PORT=3000

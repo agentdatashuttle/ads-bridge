@@ -22,11 +22,37 @@ const eventCallback = async (
       )}`
     );
 
-    // Broadcast Socket.io event to all ADS Subscribers
-    ads_bridge.socketIoServer.emit(
-      config.ads_publish_socket_event_name,
-      JSON.stringify(messagePayload)
-    );
+    // Broadcast Socket.io event to one random ADS Subscriber in each room (each room represents a pool of ADS Subscribers which are ideally horizontally scaled replicas of the same ADS Subscriber Agent where only one of them should invoke the agent on an ADS Event)
+    const socket_rooms = ads_bridge.socketIoServer.sockets.adapter.rooms;
+
+    for (const roomId of socket_rooms.keys()) {
+      if (roomId.startsWith(config.ads_subscribers_pool_id_prefix)) {
+        const socketsInRoom = Array.from(
+          socket_rooms.get(roomId)?.values() || []
+        );
+        const randomIdx = Math.floor(Math.random() * socketsInRoom.length);
+        if (socketsInRoom.length === 0) {
+          LOGGER.warn(
+            `No sockets found in room '${roomId}'. Skipping emit to this room.`
+          );
+          continue;
+        }
+
+        const randomSocketId = socketsInRoom[randomIdx];
+        LOGGER.debug(
+          `Emitting ADS event to random socket ID '${randomSocketId}' in room '${roomId}'. All sockets in this room: ${socketsInRoom.join(
+            ", "
+          )}`
+        );
+
+        ads_bridge.socketIoServer
+          .to(randomSocketId)
+          .emit(
+            config.ads_publish_socket_event_name,
+            JSON.stringify(messagePayload)
+          );
+      }
+    }
 
     LOGGER.debug(
       `ADS event published from ADS Bridge via Socket.io broadcast event name '${config.ads_publish_socket_event_name}'`,
