@@ -1,6 +1,6 @@
 {
   "name": "ads-bridge",
-  "version": "25.6.1",
+  "version": "25.7.1",
   "description": "The ADS Bridge is to be run by ADS Publishers to send ADS events which would be received by subscribed agents",
   "main": "index.js",
   "scripts": {
