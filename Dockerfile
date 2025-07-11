@@ -1,4 +1,4 @@
-# docker buildx build --platform linux/amd64,linux/arm64 -t agentdatashuttle/ads-bridge:25.7.1 -t agentdatashuttle/ads-bridge:latest . --push
+# docker buildx build --platform linux/amd64,linux/arm64 -t agentdatashuttle/ads-bridge:25.7.2 -t agentdatashuttle/ads-bridge:latest . --push
 
 # Build stage
 FROM node:21.6-slim AS build

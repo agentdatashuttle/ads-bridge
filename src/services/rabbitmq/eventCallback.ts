@@ -23,7 +23,18 @@ const eventCallback = async (
     );
 
     // Broadcast Socket.io event to one random ADS Subscriber in each room (each room represents a pool of ADS Subscribers which are ideally horizontally scaled replicas of the same ADS Subscriber Agent where only one of them should invoke the agent on an ADS Event)
-    const socket_rooms = ads_bridge.socketIoServer.sockets.adapter.rooms;
+    const sockets_in_cluster = await ads_bridge.socketIoServer.fetchSockets();
+    const socket_rooms = new Map<string, Set<string>>();
+    for (const socket of sockets_in_cluster) {
+      const roomIds = Array.from(socket.rooms);
+
+      for (const roomId of roomIds) {
+        if (!socket_rooms.has(roomId)) {
+          socket_rooms.set(roomId, new Set());
+        }
+        socket_rooms.get(roomId)?.add(socket.id);
+      }
+    }
 
     for (const roomId of socket_rooms.keys()) {
       if (roomId.startsWith(config.ads_subscribers_pool_id_prefix)) {
