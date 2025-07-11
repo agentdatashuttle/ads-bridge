@@ -25,11 +25,13 @@ services:
       - RABBITMQ_DEFAULT_USER=ads_user
       - RABBITMQ_DEFAULT_PASS=ads_password
     ports:
+      - "5672:5672"
       - "15672:15672"
+      - "15692:15692"
 
   # ADS Bridge
   ads_bridge:
-    image: agentdatashuttle/ads-bridge:25.7.1
+    image: agentdatashuttle/ads-bridge:25.7.2
     restart: unless-stopped
     environment:
       - SERVER_PORT=3000
