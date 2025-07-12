@@ -75,8 +75,8 @@ The ADS Bridge is intended to be run by ADS Publishers to send ADS events, which
 
 - **Express**: Exposes health and stats endpoints for monitoring.
 
-![Architecture Diagram](<img width="1920" height="1080" alt="architecture-diagram" src="https://github.com/user-attachments/assets/45684f85-9eb9-4d4b-948b-2bdbccaddf02" />
-) <!-- TODO: Replace with your actual diagram if available -->
+<img width="1920" height="1080" alt="architecture-diagram" src="https://github.com/user-attachments/assets/45d69052-21e4-4b6a-ad67-cdb21034825a" />
+
 
 ---
 
