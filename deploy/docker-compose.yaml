@@ -41,7 +41,6 @@ services:
       - RABBITMQ_PORT=5672
       - RABBITMQ_USERNAME=ads_user
       - RABBITMQ_PASSWORD=ads_password
-      - ADS_PUBLISH_SOCKET_EVENT_NAME=ads_event_published_now
       - LOG_LEVEL=debug
     ports:
       - "3000"
