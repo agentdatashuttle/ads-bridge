@@ -13,15 +13,15 @@ Jump to [Quick Start](#quick-start) for setting up an ADS Publisher via your own
 - [Overview](#overview)
 - [Quick Start](#quick-start)
 - [Architecture](#architecture)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Running Locally](#running-locally)
-  - [Docker Compose](#docker-compose)
 - [Configuration](#configuration)
 - [Endpoints](#endpoints)
 - [Project Structure](#project-structure)
-- [Development](#development)
 - [Logging](#logging)
+- [Getting Started (For Contributors)](#getting-started-for-contributors)
+  - [Prerequisites](#prerequisites)
+  - [Running Locally](#running-locally)
+  - [Docker Compose](#docker-compose)
+  - [Development](#development)
 - [License](#license)
 - [Contact](#contact)
 
@@ -35,8 +35,14 @@ The ADS Bridge is intended to be run by ADS Publishers to send ADS events, which
 
 ## Quick Start
 
+> **Note**: ADS Bridge needs to be hosted by the system which hosts the ADS Publisher - which will then be connected to, by other ADS Subscribers
+
 - **Download the release zip**  
    Get the `.zip` file from [Releases](https://github.com/agentdatashuttle/ads-bridge/releases) — it contains the pre-configured `/deploy` folder.
+
+- Make modifications to the ADS Bridge environment variables in the downloaded `docker-compose.yaml` file, if required, before bringing up the ADS Bridge
+
+  > Refer [Configuration](#configuration) for available environment variables
 
 - **Start the service with Docker Compose**
 
@@ -53,13 +59,15 @@ The ADS Bridge is intended to be run by ADS Publishers to send ADS events, which
 - **Access the service**
 
   - Traefik runs at: `http://localhost:9999`
-  - ADS Bridge is served behind the `/ads_bridge` path
+  - ADS Bridge is served behind the `/ads_bridge`
 
   Example:
 
   ```
   http://localhost:9999/ads_bridge/health
   ```
+
+  > Use the details of your ADS Bridge deployment to document how other ADS Subscribers can listen to the events sent out by your ADS Publisher
 
 ---
 
@@ -73,63 +81,11 @@ The ADS Bridge is intended to be run by ADS Publishers to send ADS events, which
 
 - **Socket.io + Redis Adapter**: Broadcasts events to all connected agents (ADS Subscribers) and supports horizontal scaling.
 
-- **Express**: Exposes health and stats endpoints for monitoring.
+- **Express**: Exposes `/health` and `/stats` endpoints for monitoring.
 
-<img width="1920" height="1080" alt="architecture-diagram" src="https://github.com/user-attachments/assets/45d69052-21e4-4b6a-ad67-cdb21034825a" />
-
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) (v18+ recommended)
-- [Yarn](https://yarnpkg.com/) or [npm](https://www.npmjs.com/)
-- [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) (for containerized setup)
-
-### Running Locally
-
-1. **Install dependencies:**
-
-   ```sh
-   yarn install
-   # or
-   npm install
-   ```
-
-2. **Build the project:**
-
-   ```sh
-   yarn build
-   # or
-   npm run build
-   ```
-
-3. **Start the service:**
-
-   ```sh
-   yarn start
-   # or
-   npm start
-   ```
-
-   The service will start on the port specified by `SERVER_PORT` (default: 8000).
-
-### Docker Compose
-
-A ready-to-use [docker-compose.dev.yaml](deploy/docker-compose.dev.yaml) is provided for local development, which brings up:
-
-- ADS Bridge
-- RabbitMQ
-- Redis Stack
-- Traefik (reverse proxy)
-
-To start all services:
-
-```sh
-docker-compose -f docker-compose.dev.yaml up --build
-```
+> ![Before and After ADS](https://agentdatashuttle.knowyours.co/before-after-illustration.png)
+>
+> ![Architecture Diagram](https://agentdatashuttle.knowyours.co/architecture-diagram.png)
 
 ---
 
@@ -214,38 +170,6 @@ src/
 
 ---
 
-## Development
-
-- **Watch mode:**
-
-  ```sh
-  yarn dev
-  # or
-  npm run dev
-  ```
-
-  Uses `nodemon` for hot-reloading.
-
-- **TypeScript:**
-  All source code is in TypeScript. Build output is in `build/`.
-
-#### Docker Image Build
-
-- Follows a `<year>.<month>.<release>` versioning convention
-- Prepare the Multiplatform builder if issues arise
-
-  > `docker buildx create --name multiarch-builder --driver docker-container --use`
-  >
-  > `docker buildx inspect --bootstrap`
-
-- Command to build and push - `docker buildx build --platform linux/amd64,linux/arm64 -t agentdatashuttle/ads-bridge:25.6.1 -t agentdatashuttle/ads-bridge:latest . --push`
-
-#### Preparing release .zip file
-
-- Execute `yarn zip-release` and issue a release
-
----
-
 ## Logging
 
 Logging level can be configured via the `LOG_LEVEL` environment variable with the following values
@@ -277,6 +201,89 @@ If you encounter any bugs or have feature requests, please [raise an issue](http
 
 Thank you for helping improve the Agent Data Shuttle initiative!
 
+## Getting Started (for contributors)
+
+> Please refer [Quick Start](#quick-start) if you are building ADS Publishers/Subscribers
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (v18+ recommended)
+- [Yarn](https://yarnpkg.com/) or [npm](https://www.npmjs.com/)
+- [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) (for containerized setup)
+
+### Running Locally
+
+1. **Install dependencies:**
+
+   ```sh
+   yarn install
+   # or
+   npm install
+   ```
+
+2. **Build the project:**
+
+   ```sh
+   yarn build
+   # or
+   npm run build
+   ```
+
+3. **Start the service:**
+
+   ```sh
+   yarn start
+   # or
+   npm start
+   ```
+
+   The service will start on the port specified by `SERVER_PORT` (default: 8000).
+
+### Docker Compose
+
+A ready-to-use [docker-compose.dev.yaml](deploy/docker-compose.dev.yaml) is provided for local development, which brings up:
+
+- ADS Bridge
+- RabbitMQ
+- Redis Stack
+- Traefik (reverse proxy)
+
+To start all services:
+
+```sh
+docker-compose -f docker-compose.dev.yaml up --build
+```
+
+### Development
+
+- **Watch mode:**
+
+  ```sh
+  yarn dev
+  # or
+  npm run dev
+  ```
+
+  Uses `nodemon` for hot-reloading.
+
+- **TypeScript:**
+  All source code is in TypeScript. Build output is in `build/`.
+
+#### Docker Image Build
+
+- Follows a `<year>.<month>.<release>` versioning convention
+- Prepare the Multiplatform builder if issues arise
+
+  > `docker buildx create --name multiarch-builder --driver docker-container --use`
+  >
+  > `docker buildx inspect --bootstrap`
+
+- Command to build and push - `docker buildx build --platform linux/amd64,linux/arm64 -t agentdatashuttle/ads-bridge:25.6.1 -t agentdatashuttle/ads-bridge:latest . --push`
+
+#### Preparing release .zip file
+
+- Execute `yarn zip-release` and issue a release
+
 ---
 
 ## License
@@ -288,6 +295,6 @@ This project is licensed under the [Apache License 2.0](https://www.apache.org/l
 ## Contact
 
 For questions or support, please contact
-<br>[agentdatashuttle@knowyours.co](mailto:agentdatashuttle@knowyours.co) or [sudhay2001@gmail.com](mailto:sudhay2001@gmail.com)
+<br>[agentdatashuttle@knowyours.co](mailto:agentdatashuttle@knowyours.co)
 
 For more information about Agent Data Shuttle - https://agentdatashuttle.knowyours.co
